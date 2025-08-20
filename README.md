@@ -1,66 +1,192 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Belajar LinkedIn Class — REST API (Laravel + MySQL) 🚀
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Deskripsi singkat
+API sederhana untuk platform Belajar LinkedIn Class — menyediakan fitur registrasi & login user, CRUD untuk kelas (courses), dan pendaftaran (enrollment) user ke kelas. Implementasi menggunakan Laravel, MySQL, dan Laravel Sanctum untuk autentikasi token. Database ada di dalam file .zip yang dikirimkan, database yang digunakan adalah MySql.
 
-## About Laravel
+# 📚 Daftar fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# 🧑‍💻 Auth
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+POST /api/register — registrasi user (name, email, password)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+POST /api/login — login (email, password) → mengembalikan token
 
-## Learning Laravel
+POST /api/logout — logout (menghapus token)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# 🏷️ Courses (Class)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+GET /api/courses — list semua course
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+POST /api/courses — tambah course
 
-## Laravel Sponsors
+GET /api/courses/{id} — detail course
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+PUT /api/courses/{id} — update course
 
-### Premium Partners
+DELETE /api/courses/{id} — hapus course
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+# ✍️ Enrollment
 
-## Contributing
+POST /api/enroll/{courseId} — user ter-autentikasi mendaftar ke course
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+GET /api/my-enrollments — daftar course user (yang sedang login)
 
-## Code of Conduct
+# ⚙️ Persyaratan (local)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+PHP >= 8.1
 
-## Security Vulnerabilities
+Composer
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+MySQL / MariaDB (phpMyAdmin opsional)
 
-## License
+Git
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+(opsional) Postman atau curl
+
+# 🛠️ Cara menjalankan (setup langkah demi langkah)
+
+── Clone repo
+
+git clone https://github.com/<username>/<repo>.git
+cd belajar-linkedin-class
+
+
+── Install dependency
+
+composer install
+
+
+Edit .env sesuai DB:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=belajar_linkedin_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+
+── (Jika belum) Install & publish Sanctum
+
+composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate
+
+
+── Jalankan migration
+
+php artisan migrate
+
+── Jalankan server
+
+php artisan serve
+# akses default: http://127.0.0.1:8000
+
+🔁 Contoh request & response
+
+Pastikan header:
+Content-Type: application/json
+Accept: application/json
+Untuk route yang butuh auth, tambah header: Authorization: Bearer <token>
+
+# 1) Register
+
+Request
+
+POST /api/register
+Content-Type: application/json
+
+
+Body:
+
+{
+  "name": "Iyz",
+  "email": "iyz@example.com",
+  "password": "12345678"
+}
+
+
+Response (201 Created)
+
+{
+  "user": { "id": 1, "name": "Iyz", "email": "iyz@example.com", ... },
+  "token": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+
+# 2) Login
+
+Request
+
+POST /api/login
+
+
+Body:
+
+{
+  "email": "iyz@example.com",
+  "password": "12345678"
+}
+
+
+Response
+
+{
+  "user": { ... },
+  "token": "1|xxxxxxxxxxxxxxxxxxxx"
+}
+
+
+Gunakan token:
+
+Authorization: Bearer 1|xxxxxxxxxxxxxxxxxxxx
+
+# 3) Create Course
+
+Request
+
+POST /api/courses
+Authorization: Bearer <token>
+
+
+Body:
+
+{
+  "title": "Laravel Basics",
+  "description": "Belajar dasar Laravel",
+  "teacher": "Pak Aji"
+}
+
+
+Response (201)
+
+{
+  "id": 1,
+  "title": "Laravel Basics",
+  "description": "Belajar dasar Laravel",
+  "teacher": "Pak Aji",
+  "created_at": "2025-07-30T...",
+  "updated_at": "2025-07-30T..."
+}
+
+# 4) Enroll (daftarkan user yg login ke course id 2)
+
+Request
+
+POST /api/enroll/2
+Authorization: Bearer <token>
+
+
+Response (201)
+
+{
+  "id": 5,
+  "user_id": 1,
+  "course_id": 2,
+  "created_at": "2025-07-30T10:00:00.000000Z",
+  "updated_at": "..."
+}
+
+
+Jika sudah terdaftar:
+
+{ "message": "Already enrolled" }
