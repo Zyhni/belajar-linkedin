@@ -1,7 +1,7 @@
 # Belajar LinkedIn Class — REST API (Laravel + MySQL) 🚀
 
 Deskripsi singkat
-API sederhana untuk platform Belajar LinkedIn Class — menyediakan fitur registrasi & login user, CRUD untuk kelas (courses), dan pendaftaran (enrollment) user ke kelas. Implementasi menggunakan Laravel, MySQL, dan Laravel Sanctum untuk autentikasi token. Database ada di dalam file .zip yang dikirimkan, database yang digunakan adalah MySql.
+API sederhana untuk platform Belajar LinkedIn Class — menyediakan fitur registrasi & login user, CRUD untuk kelas (courses), dan pendaftaran (enrollment) user ke kelas. Implementasi menggunakan Laravel, MySQL, dan Laravel Sanctum untuk autentikasi token. Database ada di dalam folder Storage yang bernama belajar_linkedin_db.
 
 # 📚 Daftar fitur
 
